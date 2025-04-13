@@ -1,27 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-
-class App extends React.Component {
-
-  render() {
-    const reactVersion = require('./package.json').dependencies['react'];
-
-    return ([
-        <h1>
-          React
-          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" height="30"></img>
-        </h1>,
-        <p>
-          React Version: {reactVersion}
-        </p>
-    ])
-  }
-}
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App';
 
 class Mfe4Element extends HTMLElement {
   connectedCallback() {
-    ReactDOM.render(<App/>, this);
+    ReactDOM.render(<App />, this);
   }
 }
 
-customElements.define('react-element', Mfe4Element);
+// Check if the custom element is already defined before defining it
+if (!customElements.get('react-element')) {
+  customElements.define('react-element', Mfe4Element);
+}

@@ -1,13 +1,13 @@
-const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = options => {
+module.exports = (options) => {
   return {
     entry: './index.js',
     output: {
       filename: 'bundle.js',
-      publicPath: "auto",
-      uniqueName: "mfe4"
+      publicPath: 'auto',
+      uniqueName: 'mfe4',
     },
     module: {
       rules: [
@@ -19,8 +19,8 @@ module.exports = options => {
               loader: 'babel-loader',
               options: {
                 cacheDirectory: true,
-                presets: ['@babel/react', '@babel/env']
-              }
+                presets: ['@babel/react', '@babel/env'],
+              },
             },
           ],
         },
@@ -28,26 +28,28 @@ module.exports = options => {
     },
     plugins: [
       new ModuleFederationPlugin({
-        
-          // For remotes (please adjust)
-          name: "react",
-          library: { type: "var", name: "react" },
-          filename: "remoteEntry.js", // <-- Meta Data
-          exposes: {
-              './web-components': './app.js',
-          },        
-          shared: ["react", "react-dom"]
-        }),
-        new CopyWebpackPlugin({
-          patterns: [
-            {
-              from: './*.html'
-            }
-          ]
-        })
+        name: 'react',
+        library: { type: 'var', name: 'react' },
+        filename: 'remoteEntry.js',
+        exposes: {
+          './web-components': './app.js',
+        },
+        shared: {
+          react: { singleton: true, requiredVersion: '^17.0.1' },
+          'react-dom': { singleton: true, requiredVersion: '^17.0.1' },
+        },
+      }),
+      new HtmlWebpackPlugin({
+        template: './index.html',
+      }),
     ],
     devServer: {
-      port: 4204
-    }
-  }
-}
+      port: 4204,
+      hot: true,
+      historyApiFallback: true,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    },
+  };
+};
