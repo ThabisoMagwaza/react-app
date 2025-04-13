@@ -1,13 +1,17 @@
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const domain = process.env.PRODUCTION_DOMAIN;
+
 module.exports = (options) => {
   return {
     entry: './index.js',
     output: {
-      filename: 'bundle.js',
-      publicPath: 'auto',
-      uniqueName: 'mfe4',
+      filename: '[name][contenthash].js',
+      publicPath:
+        process.env.NODE_ENV === 'production'
+          ? `${domain}/marketing/latest/`
+          : 'auto',
     },
     module: {
       rules: [
