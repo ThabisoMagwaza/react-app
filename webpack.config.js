@@ -5,7 +5,7 @@ const domain = process.env.PRODUCTION_DOMAIN;
 
 module.exports = (options) => {
   return {
-    entry: './index.js',
+    entry: './index.tsx',
     output: {
       filename: '[name][contenthash].js',
       publicPath:
@@ -13,17 +13,20 @@ module.exports = (options) => {
           ? `${domain}/marketing/latest/`
           : 'auto',
     },
+    resolve: {
+      extensions: ['.tsx', '.ts', '.js'],
+    },
     module: {
       rules: [
         {
-          test: /.js$/,
+          test: /\.(ts|tsx)$/,
           exclude: /node_modules/,
           use: [
             {
               loader: 'babel-loader',
               options: {
                 cacheDirectory: true,
-                presets: ['@babel/react', '@babel/env'],
+                presets: ['@babel/react', '@babel/env', '@babel/preset-typescript'],
               },
             },
           ],
@@ -36,11 +39,19 @@ module.exports = (options) => {
         library: { type: 'var', name: 'react' },
         filename: 'remoteEntry.js',
         exposes: {
-          './web-components': './app.js',
+          './web-components': './app.tsx',
         },
         shared: {
-          react: { singleton: true, requiredVersion: '^17.0.1' },
-          'react-dom': { singleton: true, requiredVersion: '^17.0.1' },
+          react: { 
+            singleton: true, 
+            requiredVersion: '^17.0.1',
+            eager: true
+          },
+          'react-dom': { 
+            singleton: true, 
+            requiredVersion: '^17.0.1',
+            eager: true
+          },
         },
       }),
       new HtmlWebpackPlugin({
