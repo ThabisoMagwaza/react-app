@@ -31,6 +31,37 @@ module.exports = (options) => {
             },
           ],
         },
+        {
+          test: /\.css$/,
+          use: [
+            {
+              loader: 'style-loader',
+              options: {
+                injectType: 'singletonStyleTag',
+                attributes: {
+                  'data-styled-version': '1',
+                },
+              },
+            },
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1,
+              },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  plugins: [
+                    ['@tailwindcss/postcss7-compat'],
+                    ['autoprefixer'],
+                  ],
+                },
+              },
+            },
+          ],
+        },
       ],
     },
     plugins: [

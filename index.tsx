@@ -1,3 +1,4 @@
+import './styles/globals.css';
 import './app';
 
 // Create a container for the web component
