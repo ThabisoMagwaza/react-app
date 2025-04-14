@@ -34,32 +34,14 @@ module.exports = (options) => {
         {
           test: /\.css$/,
           use: [
-            {
-              loader: 'style-loader',
-              options: {
-                injectType: 'singletonStyleTag',
-                attributes: {
-                  'data-styled-version': '1',
-                },
-              },
-            },
+            'style-loader',
             {
               loader: 'css-loader',
               options: {
                 importLoaders: 1,
               },
             },
-            {
-              loader: 'postcss-loader',
-              options: {
-                postcssOptions: {
-                  plugins: [
-                    ['@tailwindcss/postcss7-compat'],
-                    ['autoprefixer'],
-                  ],
-                },
-              },
-            },
+            'postcss-loader',
           ],
         },
       ],
@@ -75,12 +57,12 @@ module.exports = (options) => {
         shared: {
           react: { 
             singleton: true, 
-            requiredVersion: '^17.0.1',
+            requiredVersion: '^18.2.0',
             eager: true
           },
           'react-dom': { 
             singleton: true, 
-            requiredVersion: '^17.0.1',
+            requiredVersion: '^18.2.0',
             eager: true
           },
         },
