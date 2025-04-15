@@ -1,36 +1,23 @@
 import React from 'react';
-import { Button } from './ui/button';
+import { analytics, salesData } from './mockData';
+import { AnalyticsCard } from './AnalyticsCard';
+import { SalesChart } from './SalesChart';
 
-const App: React.FC = () => {
+export default function App() {
   return (
-    <div className="min-h-screen bg-background py-6 flex flex-col justify-center sm:py-12">
-      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-        <div className="relative px-4 py-10 bg-card shadow-lg sm:rounded-3xl sm:p-20">
-          <h1 className="text-4xl font-bold text-card-foreground mb-8">
-            Hello World, we're officially in business!
-          </h1>
-          <div className="grid grid-cols-2 gap-4">
-            <Button size="lg">Default Button</Button>
-            <Button variant="destructive" size="lg">
-              Destructive Button
-            </Button>
-            <Button variant="outline" size="lg">
-              Outline Button
-            </Button>
-            <Button variant="secondary" size="lg">
-              Secondary Button
-            </Button>
-            <Button variant="ghost" size="lg">
-              Ghost Button
-            </Button>
-            <Button variant="link" size="lg">
-              Link Button
-            </Button>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gray-100 p-8">
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold">Store Dashboard</h1>
+        <p className="text-gray-600">Welcome, Admin!</p>
+      </header>
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        {analytics.map((item) => (
+          <AnalyticsCard key={item.title} {...item} />
+        ))}
+      </section>
+      <section>
+        <SalesChart data={salesData} />
+      </section>
     </div>
   );
-};
-
-export default App;
+}
